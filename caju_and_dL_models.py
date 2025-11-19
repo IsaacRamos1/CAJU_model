@@ -1,5 +1,4 @@
 import torch
-import wandb
 import torch.nn as nn
 import torch.optim as optim
 import torchvision.models as models
@@ -216,20 +215,6 @@ class CNNTrainer:
     def train(self, trainloader, valloader, epochs=10, lr=0.001, fold=0,
             log_callback=None, plot_callback=None, stop_flag_getter=lambda: False,
             project_name='project-name', batch_size=None):
-        
-        # 1. Iniciar wandb
-        wandb.init(
-            project=project_name,
-            name=f"{self.model.__class__.__name__}_fold{fold}",
-            config={
-                "fold": fold,
-                "epochs": epochs,
-                "learning_rate": lr,
-                "batch_size": batch_size,
-                "model": self.model.__class__.__name__,
-                "backbone": getattr(self.model, 'backbone', 'custom') if hasattr(self.model, 'backbone') else 'custom'
-            }
-        )
 
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.model.parameters()), lr=lr)
@@ -289,18 +274,6 @@ class CNNTrainer:
             val_loss, val_acc, val_prec, val_recall, val_f1, val_auc = self.evaluate(valloader)
             safe_log(f"Train Loss: {avg_train_loss:.4f}  |  Val acc: {val_acc:4f}")
 
-            # 2. Logar métricas no W&B
-            wandb.log({
-                "epoch": epoch + 1,
-                "train_loss": avg_train_loss,
-                "val_loss": val_loss,
-                "val_accuracy": val_acc,
-                "val_precision": val_prec,
-                "val_recall": val_recall,
-                "val_f1_score": val_f1,
-                "val_auc": val_auc
-            })
-
             self.early_stopping(val_loss, self.model)
             if self.early_stopping.early_stop:
                 safe_log("Early stopping!")
@@ -317,9 +290,6 @@ class CNNTrainer:
                 plot_callback(self.history['train_loss'], self.history['val_accuracy'])
 
         self.plot_training_metrics(fold=fold, save_path=f"metrics_fold{fold}.png")
-
-        # 3. Finaliza o wandb
-        wandb.finish()
 
     
 
@@ -406,4 +376,5 @@ class CNNTrainer:
         plt.tight_layout(rect=[0, 0, 1, 0.95])
         plt.savefig(save_path)
         plt.close()
+
         print(f"📈 Gráfico salvo em: {save_path}")
