@@ -12,30 +12,22 @@ The core components are:
 - **`CNNTrainer`**: high-level training and evaluation wrapper for multiple backbones.
 - **`LightSelfAttention`**: simple self-attention module applied over spatially flattened feature maps.
 - Integrated **early stopping** (via a custom `EarlyStopping` class), you can use your own earlystop class.
-- Support for multi-class metrics: **accuracy, precision, recall, F1-score, ROC–AUC (OvR, macro)**.
+- Support for multi-class metrics: **accuracy, precision, sensitivity, F1-score**.
 
-The code is intended for scientific/experimental workflows in computer vision, especially when comparing different CNN backbones under a common training pipeline.
+The code is intended for scientific workflow in computer vision, especially when comparing different CNN backbones under a common training pipeline.
 
 ---
 
 ## 2. Implemented Architectures
 
-The trainer supports the following `model_name` options:
+The trainer can supports the following `model_name` options:
 
-- `resnet18`
-- `resnet50`
-- `resnet101`
-- `vgg16`
-- `mobilenetv3` (MobileNetV3-Large)
-- `densenet121`
-- `densenet161`
-- `inceptionv3`
-- `efficientnet_b0`
-- `efficientnet_b3`
-- `mobilenetv4_hybrid` (via `timm`)
-- `vgg16_mobilenetv3` (custom hybrid with attention)
+- `vgg16`       (VGG16 used)
+- `mobilenetv3` (MobileNetV3-Large used)
+- `vgg16_mobilenetv3` (CAJU model with attention block)
+  You can load other models for new aproaches.
 
-All architectures are initialized with ImageNet-pretrained weights from `torchvision` or `timm`. After loading, **all convolutional and fully connected layers are reinitialized using Xavier uniform initialization**, via:
+All architectures are initialized with ImageNet-pretrained weights from `torchvision`, via:
 
 ```python
 def initialize_weights_xavier(module):
