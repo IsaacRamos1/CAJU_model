@@ -12,13 +12,6 @@ import matplotlib.pyplot as plt
 import timm
 import torch.nn.init as init
 
-
-def initialize_weights_xavier(module):
-    if isinstance(module, nn.Conv2d) or isinstance(module, nn.Linear):
-        init.xavier_uniform_(module.weight)
-        if module.bias is not None:
-            init.zeros_(module.bias)
-
 class LightSelfAttention(nn.Module):
     def __init__(self, feature_dim):
         super(LightSelfAttention, self).__init__()
@@ -198,8 +191,7 @@ class CNNTrainer:
             self.print_model_info(model)
         else:
             raise ValueError(f"Model '{model_name}' not found.")
-        
-        model.apply(initialize_weights_xavier)
+            
         return model
     
     def print_model_info(self, model):
@@ -378,3 +370,4 @@ class CNNTrainer:
         plt.close()
 
         print(f"📈 Gráfico salvo em: {save_path}")
+
