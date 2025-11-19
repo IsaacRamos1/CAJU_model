@@ -1,6 +1,6 @@
 # Hybrid CNN Training Pipeline with Attention
 
-This repository provides a PyTorch-based training pipeline for multi-class image classification with CAJU model a custom hybrid architecture that combines VGG16 and MobileNetV3 with a lightweight self-attention mechanism. The code supports several standard CNN backbones, early stopping, Weights & Biases logging, and automatic plotting of training curves.
+This repository provides a PyTorch-based training pipeline for multi-class image classification with CAJU model a custom hybrid architecture that combines VGG16 and MobileNetV3 with a lightweight self-attention mechanism. The code supports several standard CNN backbones and early stopping.
 
 ---
 
