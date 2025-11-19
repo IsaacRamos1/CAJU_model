@@ -1,4 +1,4 @@
-# Hybrid CNN Training Pipeline with Attention
+# CAJU: Convolutional Attentive Joint Units for Infectious Keratitis In Vivo Confocal Microscopy Image Classification
 
 This repository provides a PyTorch-based training pipeline for multi-class image classification with CAJU model a custom hybrid architecture that combines VGG16 and MobileNetV3 with a lightweight self-attention mechanism. The code supports several standard CNN backbones and early stopping.
 
