@@ -27,11 +27,4 @@ The trainer can supports the following `model_name` options:
 - `vgg16_mobilenetv3` (CAJU model with attention block)
   You can load other models for new aproaches.
 
-All architectures are initialized with ImageNet-pretrained weights from `torchvision`, via:
-
-```python
-def initialize_weights_xavier(module):
-    if isinstance(module, nn.Conv2d) or isinstance(module, nn.Linear):
-        init.xavier_uniform_(module.weight)
-        if module.bias is not None:
-            init.zeros_(module.bias)
+All architectures are initialized with ImageNet-pretrained weights from `torchvision` the first five epochs.
